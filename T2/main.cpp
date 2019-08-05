@@ -32,7 +32,7 @@ std::vector<std::vector<int>>field(18,std::vector<int>(11,0));
 
 int y = 0;
 int x = 4;
-int puntaje = 9;
+int puntaje = 0;
 
 bool gameover = false;
 
