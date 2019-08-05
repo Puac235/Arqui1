@@ -32,7 +32,7 @@ std::vector<std::vector<int>>field(18,std::vector<int>(11,0));
 
 int y = 0;
 int x = 4;
-int puntaje = 0;
+int puntaje = 9;
 
 bool gameover = false;
 
@@ -88,6 +88,7 @@ std::vector<std::vector<std::vector<int>>> bloques =
 
 int menu();
 int gameOver();
+int pausa();
 void title();
 void gameLoop();
 void display();
@@ -103,6 +104,7 @@ void eliminarFila(size_t);
 void seElimina();
 void punteo();
 bool lineaLlena(size_t, size_t);
+int ganar();
 
 int main()
 {
@@ -142,11 +144,58 @@ int gameOver()
         cout << "\nPuntaje: " << puntaje << "\n";
         cout << "#\n";
         cout << "#\n";
-        cout << "\n\nPress any key and enter\n";
+        cout << "\n\nPresione cualquier tecla para continuar seguido de Enter.\n";
         cin >> a;
+
+        y = 0;
+        x = 0;
+        puntaje = 0;
+        gameover = false;
+
+
+        switch(menu())
+        {
+        case 1:
+            gameLoop();
+            break;
+        case 2:
+            return 0;
+        case 0:
+            std::cerr<< "Escoger 1 o 2" << std::endl;
+            return -1;
+        }
+
         return 0;
 }
 
+int pausa()
+{
+    using namespace std;
+    system("cls");
+    char a;
+        cout << " #####     #    #     # #######    #\n"
+                "#     #   # #   #     # #         # #\n"
+                "#     #  #   #  #     # #        #   #\n"
+                "######  #     # #     # ####### #     #\n"
+                "#       ####### #     #       # #######\n"
+                "#       #     # #     #       # #     #\n"
+                "#       #     #  #####  ####### #     #\n"
+                "\n"
+                "\nPuntaje: " << puntaje << "\n"
+                "\n"
+                "\n"
+                "\n\nPresionar \"P\" para reanudar\n";
+        cin >> a;
+        switch (a) {
+        case 'p':
+                display();
+
+            break;
+        default:
+            return -1;
+        }
+        return 0;
+}
 void gameLoop()
 {
     size_t time = 0;
@@ -169,6 +218,7 @@ void gameLoop()
             time = 0;
         }
         seElimina();
+        ganar();
     }
 }
 
@@ -369,6 +419,9 @@ void userInput()
             moveBlock(x,y+1);
         }
         break;
+    case 'p':
+        pausa();
+        break;
     case ' ':
         rotarBloque();
     }
@@ -467,4 +520,51 @@ bool lineaLlena(size_t x,size_t y)
     {
         return false;
     }
+}
+int ganar()
+{
+    if(puntaje == 10)
+    {
+        system("cls");
+        using namespace std;
+
+        char a;
+            cout << " #####     #    #     #    #    #     #    #    ####### ####### #######\n" ;
+            cout << "#     #   # #   ##    #   # #   ##    #   # #   #          #    #\n";
+            cout << "#        #   #  # #   #  #   #  # #   #  #   #  #          #    #\n";
+            cout << "#  #### #     # #  #  # #     # #  #  # #     # #######    #    #####\n";
+            cout << "#     # ####### #   # # ####### #   # # #######       #    #    #\n";
+            cout << "#     # #     # #    ## #     # #    ## #     #       #    #    #\n";
+            cout << " #####  #     # #     # #     # #     # #     # #######    #    #######\n";
+            cout << "\n" ;
+            cout << "\n" ;
+            cout << "\n" ;
+            cout << "\nPuntaje: " << puntaje << "\n";
+            cout << "\n";
+            cout << "\n";
+            cout << "\n\nPresione cualquier tecla para continuar seguido de Enter.\n";
+            cin >> a;
+
+            y = 0;
+            x = 0;
+            puntaje = 0;
+            gameover = false;
+
+
+            switch(menu())
+            {
+            case 1:
+                gameLoop();
+                break;
+            case 2:
+                return 0;
+            case 0:
+                std::cerr<< "Escoger 1 o 2" << std::endl;
+                return -1;
+            }
+
+            return 0;
+
+    }
+    return 0;
 }
